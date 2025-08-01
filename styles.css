@@ -1,0 +1,32 @@
+.book-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-close-btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: none;
+  border: none;
+  height: auto;
+  width: 100%;
+  padding: 0;
+}
+
+.form-close-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
