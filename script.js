@@ -4,8 +4,9 @@ const closeFormBtn = document.querySelector(".form-close-btn");
 const addNewBook = document.querySelector(".form-add-book-btn");
 const dialog = document.querySelector(".modal");
 
-const myLibrary = [
+let myLibrary = [
   {
+    id: crypto.randomUUID(),
     title: "Atomic Habits",
     author: "James Clear",
     pages: 213,
@@ -17,7 +18,8 @@ openFormBtn.addEventListener("click", () => {
   dialog.showModal();
 });
 
-closeFormBtn.addEventListener("click", () => {
+closeFormBtn.addEventListener("click", (e) => {
+  e.preventDefault();
   dialog.close();
 });
 
@@ -46,42 +48,61 @@ function addBookToLibrary(title, author, pages, isRead) {
   myLibrary.push(book);
 }
 
+function removeBookFromLibrary() {
+  const removeBookButton = document.querySelectorAll(".remove-book-btn");
+
+  removeBookButton.forEach((removeBtn) => {
+    removeBtn.addEventListener("click", () => {
+      const bookId = removeBtn.parentElement.getAttribute("data-id");
+      myLibrary = myLibrary.filter((book) => book.id !== bookId);
+      displayBooks();
+    });
+  });
+}
+
+function createBookCard(book) {
+  const bookCard = document.createElement("div");
+  bookCard.classList.add("book-card");
+  bookCard.setAttribute("data-id", book.id);
+
+  const title = document.createElement("h1");
+  title.textContent = book.title;
+  bookCard.appendChild(title);
+
+  const author = document.createElement("p");
+  author.textContent = book.author;
+  bookCard.appendChild(author);
+
+  const pages = document.createElement("p");
+  pages.textContent = book.pages;
+  bookCard.appendChild(pages);
+
+  const isRead = document.createElement("p");
+  isRead.textContent = `Read: ${book.isRead}`;
+  bookCard.appendChild(isRead);
+
+  const readButton = document.createElement("button");
+  readButton.classList.add("read-btn");
+  readButton.textContent = "Read";
+  bookCard.appendChild(readButton);
+
+  const removeBookButton = document.createElement("button");
+  removeBookButton.classList.add("remove-book-btn");
+  removeBookButton.textContent = "Remove";
+  bookCard.appendChild(removeBookButton);
+
+  library.appendChild(bookCard);
+}
+
 function displayBooks() {
   library.innerHTML = "";
 
   for (const book of myLibrary) {
-    const bookCard = document.createElement("div");
-    bookCard.classList.add("book-card");
-
-    const title = document.createElement("h1");
-    title.textContent = book.title;
-    bookCard.appendChild(title);
-
-    const author = document.createElement("p");
-    author.textContent = book.author;
-    bookCard.appendChild(author);
-
-    const pages = document.createElement("p");
-    pages.textContent = book.pages;
-    bookCard.appendChild(pages);
-
-    const isRead = document.createElement("p");
-    isRead.textContent = `Read: ${book.isRead}`;
-    bookCard.appendChild(isRead);
-
-    const readButton = document.createElement("button");
-    readButton.classList.add("read-button");
-    readButton.textContent = "Read";
-    bookCard.appendChild(readButton);
-
-    const removeBookButton = document.createElement("button");
-    readButton.classList.add("remove-book-button");
-    removeBookButton.textContent = "Remove";
-    bookCard.appendChild(removeBookButton);
-
-    library.appendChild(bookCard);
+    createBookCard(book);
   }
+  removeBookFromLibrary();
 }
 
 displayBooks();
+
 console.log(myLibrary);
