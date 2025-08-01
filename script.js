@@ -4,15 +4,7 @@ const closeFormBtn = document.querySelector(".form-close-btn");
 const addNewBook = document.querySelector(".form-add-book-btn");
 const dialog = document.querySelector(".modal");
 
-let myLibrary = [
-  {
-    id: crypto.randomUUID(),
-    title: "Atomic Habits",
-    author: "James Clear",
-    pages: 213,
-    isRead: "Already read",
-  },
-];
+let myLibrary = [new Book("Atomic Habits", "James Clear", 320, true)];
 
 openFormBtn.addEventListener("click", () => {
   dialog.showModal();
@@ -40,7 +32,7 @@ function Book(title, author, pages, isRead) {
   this.title = title;
   this.author = author;
   this.pages = pages;
-  this.isRead = isRead ? "Already read" : "Not yet read";
+  this.isRead = isRead;
 }
 
 function addBookToLibrary(title, author, pages, isRead) {
@@ -48,12 +40,29 @@ function addBookToLibrary(title, author, pages, isRead) {
   myLibrary.push(book);
 }
 
+Book.prototype.updateRead = function () {
+  this.isRead = !this.isRead;
+};
+
+function updateBookRead() {
+  const readButton = document.querySelectorAll(".read-book-btn");
+
+  readButton.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const bookId = btn.parentElement.getAttribute("data-id");
+      const book = myLibrary.find((book) => book.id === bookId);
+      book.updateRead();
+      displayBooks();
+    });
+  });
+}
+
 function removeBookFromLibrary() {
   const removeBookButton = document.querySelectorAll(".remove-book-btn");
 
-  removeBookButton.forEach((removeBtn) => {
-    removeBtn.addEventListener("click", () => {
-      const bookId = removeBtn.parentElement.getAttribute("data-id");
+  removeBookButton.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const bookId = btn.parentElement.getAttribute("data-id");
       myLibrary = myLibrary.filter((book) => book.id !== bookId);
       displayBooks();
     });
@@ -78,12 +87,12 @@ function createBookCard(book) {
   bookCard.appendChild(pages);
 
   const isRead = document.createElement("p");
-  isRead.textContent = `Read: ${book.isRead}`;
+  isRead.textContent = `Read: ${book.isRead ? "Already read" : "Not yet read"}`;
   bookCard.appendChild(isRead);
 
   const readButton = document.createElement("button");
-  readButton.classList.add("read-btn");
-  readButton.textContent = "Read";
+  readButton.classList.add("read-book-btn");
+  readButton.textContent = `${book.isRead ? "Unread" : "read"}`;
   bookCard.appendChild(readButton);
 
   const removeBookButton = document.createElement("button");
@@ -101,8 +110,7 @@ function displayBooks() {
     createBookCard(book);
   }
   removeBookFromLibrary();
+  updateBookRead();
 }
 
 displayBooks();
-
-console.log(myLibrary);
