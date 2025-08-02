@@ -1,6 +1,10 @@
 const library = document.querySelector(".library");
 const openFormBtn = document.querySelector(".header-btn");
 const closeFormBtn = document.querySelector(".form-close-btn");
+const bookTitle = document.querySelector(".book-title");
+const bookAuthor = document.querySelector(".book-author");
+const bookPages = document.querySelector(".book-pages");
+const bookRead = document.querySelector(".book-read");
 const addNewBook = document.querySelector(".form-add-book-btn");
 const dialog = document.querySelector(".modal");
 
@@ -18,12 +22,12 @@ closeFormBtn.addEventListener("click", (e) => {
 addNewBook.addEventListener("click", (e) => {
   e.preventDefault();
 
-  const bookTitle = document.querySelector(".book-title").value;
-  const bookAuthor = document.querySelector(".book-author").value;
-  const bookPages = document.querySelector(".book-pages").value;
-  const bookRead = document.querySelector(".book-read").checked;
-
-  addBookToLibrary(bookTitle, bookAuthor, bookPages, bookRead);
+  addBookToLibrary(
+    bookTitle.value,
+    bookAuthor.value,
+    bookPages.value,
+    bookRead.checked
+  );
   displayBooks();
 });
 
@@ -44,61 +48,59 @@ Book.prototype.updateRead = function () {
   this.isRead = !this.isRead;
 };
 
-function updateBookRead() {
-  const readButton = document.querySelectorAll(".read-book-btn");
-
-  readButton.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const bookId = btn.parentElement.getAttribute("data-id");
-      const book = myLibrary.find((book) => book.id === bookId);
-      book.updateRead();
-      displayBooks();
-    });
-  });
-}
-
-function removeBookFromLibrary() {
-  const removeBookButton = document.querySelectorAll(".remove-book-btn");
-
-  removeBookButton.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const bookId = btn.parentElement.getAttribute("data-id");
-      myLibrary = myLibrary.filter((book) => book.id !== bookId);
-      displayBooks();
-    });
-  });
-}
-
 function createBookCard(book) {
   const bookCard = document.createElement("div");
   bookCard.classList.add("book-card");
   bookCard.setAttribute("data-id", book.id);
 
+  const bookContent = document.createElement("div");
+  bookContent.classList.add("book-content");
+  bookCard.appendChild(bookContent);
+
+  const bookButtons = document.createElement("div");
+  bookButtons.classList.add("book-buttons");
+  bookCard.appendChild(bookButtons);
+
   const title = document.createElement("h1");
   title.textContent = book.title;
-  bookCard.appendChild(title);
+  bookContent.appendChild(title);
 
   const author = document.createElement("p");
-  author.textContent = book.author;
-  bookCard.appendChild(author);
+  author.textContent = `by ${book.author}`;
+  bookContent.appendChild(author);
 
   const pages = document.createElement("p");
-  pages.textContent = book.pages;
-  bookCard.appendChild(pages);
+  pages.textContent = `${book.pages} pages`;
+  bookContent.appendChild(pages);
 
   const isRead = document.createElement("p");
-  isRead.textContent = `Read: ${book.isRead ? "Already read" : "Not yet read"}`;
-  bookCard.appendChild(isRead);
+  isRead.textContent = `Status: ${
+    book.isRead ? "Already read" : "Not yet read"
+  }`;
+  bookContent.appendChild(isRead);
 
   const readButton = document.createElement("button");
   readButton.classList.add("read-book-btn");
-  readButton.textContent = `${book.isRead ? "Unread" : "read"}`;
-  bookCard.appendChild(readButton);
+  readButton.textContent = `${book.isRead ? "Mark as Unread" : "Mark as Read"}`;
+
+  readButton.addEventListener("click", () => {
+    book.updateRead();
+    displayBooks();
+  });
+
+  bookButtons.appendChild(readButton);
 
   const removeBookButton = document.createElement("button");
   removeBookButton.classList.add("remove-book-btn");
-  removeBookButton.textContent = "Remove";
-  bookCard.appendChild(removeBookButton);
+  removeBookButton.textContent = "Remove Book";
+
+  removeBookButton.addEventListener("click", () => {
+    const bookId = book.id;
+    myLibrary = myLibrary.filter((book) => book.id !== bookId);
+    displayBooks();
+  });
+
+  bookButtons.appendChild(removeBookButton);
 
   library.appendChild(bookCard);
 }
@@ -109,8 +111,6 @@ function displayBooks() {
   for (const book of myLibrary) {
     createBookCard(book);
   }
-  removeBookFromLibrary();
-  updateBookRead();
 }
 
 displayBooks();

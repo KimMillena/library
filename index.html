@@ -10,7 +10,7 @@
 
 <body>
     <header class="header">
-        <h1 class="header-title">Library</h1>
+        <h1 class="header-title">My Library</h1>
         <button type="button" class="header-btn">+ Add Book</button>
     </header>
 
@@ -20,19 +20,20 @@
 
     <dialog class="modal">
         <form class="book-form">
-            <button class="form-close-btn">
-                <img src="img/close-icon.png" alt="Close Button">
-            </button>
+            <div class="modal-top">
+                <h1 class="form-title">Add new book</h1>
+                <img src="img/close-icon.png" alt="Close Button" class="form-close-btn">
+            </div>
             <div class="form-row">
-                <label for="book-title">Title</label>
+                <label for="book-title">Book Title</label>
                 <input type="text" id="book-title" class="book-title" name="book-title" autofocus required>
             </div>
             <div class="form-row">
-                <label for="book-author">Author</label>
+                <label for="book-author">Book Author</label>
                 <input type="text" id="book-author" class="book-author" name="book-author" required>
             </div>
             <div class="form-row">
-                <label for="book-pages">Pages</label>
+                <label for="book-pages">No. of Pages</label>
                 <input type="number" id="book-pages" class="book-pages" name="book-pages" required>
             </div>
             <div class="form-checkbox-row">
