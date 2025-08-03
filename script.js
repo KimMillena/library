@@ -1,4 +1,5 @@
 const library = document.querySelector(".library");
+const bookForm = document.querySelector(".book-form");
 const openFormBtn = document.querySelector(".header-btn");
 const closeFormBtn = document.querySelector(".form-close-btn");
 const bookTitle = document.querySelector(".book-title");
@@ -8,7 +9,11 @@ const bookRead = document.querySelector(".book-read");
 const addNewBook = document.querySelector(".form-add-book-btn");
 const dialog = document.querySelector(".modal");
 
-let myLibrary = [new Book("Atomic Habits", "James Clear", 320, true)];
+let myLibrary = [
+  new Book("Atomic Habits", "James Clear", 320, true),
+  new Book("Harry Potter and the Sorcerer's Stone", "J.K Rowling", 223, true),
+  new Book("A Gentle Reminder", "Bianca Sparacino", 146, false),
+];
 
 openFormBtn.addEventListener("click", () => {
   dialog.showModal();
@@ -22,6 +27,11 @@ closeFormBtn.addEventListener("click", (e) => {
 addNewBook.addEventListener("click", (e) => {
   e.preventDefault();
 
+  if (!bookForm.checkValidity()) {
+    bookForm.reportValidity();
+    return;
+  }
+
   addBookToLibrary(
     bookTitle.value,
     bookAuthor.value,
@@ -29,6 +39,7 @@ addNewBook.addEventListener("click", (e) => {
     bookRead.checked
   );
   displayBooks();
+  dialog.close();
 });
 
 function Book(title, author, pages, isRead) {

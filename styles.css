@@ -26,10 +26,16 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 2rem;
+}
+
+.header-title,
+.header-info {
+  color: var(--dark-text);
 }
 
 .header-title {
-  color: var(--dark-text);
+  margin: 0;
 }
 
 .header-btn {
@@ -54,7 +60,6 @@ body {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 3rem;
   gap: 2rem;
 }
 
@@ -67,7 +72,8 @@ body {
   box-shadow: 3px 3px 4px 1px rgba(0, 0, 0, 0.3);
   border-radius: 0.25rem;
   width: 300px;
-  min-width: 250px;
+  height: 400px;
+  min-width: 200px;
   padding: 1rem;
   word-wrap: break-word;
 }
@@ -88,6 +94,10 @@ body {
   gap: 1rem;
 }
 
+.book-content h1 {
+  font-size: 1.75rem;
+}
+
 /* BOOK BUTTONS STYLINGS */
 
 .book-buttons {
@@ -103,7 +113,7 @@ body {
   background-color: var(--light-text);
   border: none;
   border-radius: 1rem;
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.3);
   padding: 0.5rem 1rem;
   cursor: pointer;
 }
@@ -146,11 +156,6 @@ body {
 .form-close-btn {
   width: 20px;
   height: auto;
-}
-
-.form-close-btn {
-  width: 20px;
-  height: 20px;
   cursor: pointer;
 }
 
@@ -163,6 +168,10 @@ body {
 .form-row {
   display: flex;
   flex-direction: column;
+}
+
+.form-row label {
+  margin-bottom: 0.25rem;
 }
 
 .form-row input {
