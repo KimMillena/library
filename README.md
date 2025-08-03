@@ -1,6 +1,6 @@
 # 📚 Library
 
-- A library project built for the Odin Project. Users can add, remove, update read status, and view book information.
+A library project built for the Odin Project. Users can add, remove, update read status, and view book information.
 
 ## 🕹️ Features
 
