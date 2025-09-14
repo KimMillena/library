@@ -16,7 +16,7 @@ A library project built for the Odin Project. Users can add, remove, update read
 
 ## 🧠 What I Learned and Improved
 
-- Object-Oriented Programming (objects, object constructor, prototype, and etc.)
+- Object-Oriented Programming (classes, objects, object constructor, prototype, and etc.)
 - DOM Manipulation (accessing, creating, and adjusting elements)
 - Event Listeners
 - Dialog element (creating a modal with form)
