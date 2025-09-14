@@ -9,55 +9,30 @@ const bookRead = document.querySelector(".book-read");
 const addNewBook = document.querySelector(".form-add-book-btn");
 const dialog = document.querySelector(".modal");
 
+class Book {
+  constructor(title, author, pages, isRead) {
+  this.id = crypto.randomUUID();
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.isRead = isRead;
+  }
+}
+
 let myLibrary = [
   new Book("Atomic Habits", "James Clear", 320, true),
   new Book("Harry Potter and the Sorcerer's Stone", "J.K Rowling", 223, true),
   new Book("A Gentle Reminder", "Bianca Sparacino", 146, false),
 ];
 
-openFormBtn.addEventListener("click", () => {
-  dialog.showModal();
-});
-
-closeFormBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  dialog.close();
-});
-
-addNewBook.addEventListener("click", (e) => {
-  e.preventDefault();
-
-  if (!bookForm.checkValidity()) {
-    bookForm.reportValidity();
-    return;
-  }
-
-  addBookToLibrary(
-    bookTitle.value,
-    bookAuthor.value,
-    bookPages.value,
-    bookRead.checked
-  );
-  displayBooks();
-  dialog.close();
-});
-
-function Book(title, author, pages, isRead) {
-  this.id = crypto.randomUUID();
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = isRead;
-}
+Book.prototype.updateRead = function () {
+  this.isRead = !this.isRead;
+};
 
 function addBookToLibrary(title, author, pages, isRead) {
   const book = new Book(title, author, pages, isRead);
   myLibrary.push(book);
 }
-
-Book.prototype.updateRead = function () {
-  this.isRead = !this.isRead;
-};
 
 function createBookCard(book) {
   const bookCard = document.createElement("div");
@@ -90,6 +65,8 @@ function createBookCard(book) {
   }`;
   bookContent.appendChild(isRead);
 
+  // Create update read buttton
+
   const readButton = document.createElement("button");
   readButton.classList.add("read-book-btn");
   readButton.textContent = `${book.isRead ? "Mark as Unread" : "Mark as Read"}`;
@@ -100,6 +77,8 @@ function createBookCard(book) {
   });
 
   bookButtons.appendChild(readButton);
+
+  // Create remove book button
 
   const removeBookButton = document.createElement("button");
   removeBookButton.classList.add("remove-book-btn");
@@ -123,5 +102,32 @@ function displayBooks() {
     createBookCard(book);
   }
 }
+
+openFormBtn.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+closeFormBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  dialog.close();
+});
+
+addNewBook.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  if (!bookForm.checkValidity()) {
+    bookForm.reportValidity();
+    return;
+  }
+
+  addBookToLibrary(
+    bookTitle.value,
+    bookAuthor.value,
+    bookPages.value,
+    bookRead.checked
+  );
+  displayBooks();
+  dialog.close();
+});
 
 displayBooks();
