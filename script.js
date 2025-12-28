@@ -11,11 +11,11 @@ const dialog = document.querySelector(".modal");
 
 class Book {
   constructor(title, author, pages, isRead) {
-  this.id = crypto.randomUUID();
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = isRead;
+    this.id = crypto.randomUUID();
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.isRead = isRead;
   }
 }
 
@@ -95,6 +95,26 @@ function createBookCard(book) {
   library.appendChild(bookCard);
 }
 
+function validateInput() {
+  if (bookTitle.validity.valueMissing) {
+    bookTitle.setCustomValidity("Please enter a book title.");
+  } else {
+    bookTitle.setCustomValidity("");
+  }
+
+  if (bookAuthor.validity.valueMissing) {
+    bookAuthor.setCustomValidity("Please enter an author.");
+  } else {
+    bookAuthor.setCustomValidity("");
+  }
+
+  if (bookPages.validity.valueMissing) {
+    bookPages.setCustomValidity("Please enter the books number of pages.");
+  } else {
+    bookPages.setCustomValidity("");
+  }
+}
+
 function displayBooks() {
   library.innerHTML = "";
 
@@ -116,6 +136,7 @@ addNewBook.addEventListener("click", (e) => {
   e.preventDefault();
 
   if (!bookForm.checkValidity()) {
+    validateInput();
     bookForm.reportValidity();
     return;
   }
