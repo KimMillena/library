@@ -17,6 +17,14 @@ class Book {
     this.pages = pages;
     this.isRead = isRead;
   }
+
+  updateRead() {
+    this.isRead = !this.isRead;
+  }
+
+  removeBook(bookId) {
+    myLibrary = myLibrary.filter((book) => book.id !== bookId);
+  }
 }
 
 let myLibrary = [
@@ -24,10 +32,6 @@ let myLibrary = [
   new Book("Harry Potter and the Sorcerer's Stone", "J.K Rowling", 223, true),
   new Book("A Gentle Reminder", "Bianca Sparacino", 146, false),
 ];
-
-Book.prototype.updateRead = function () {
-  this.isRead = !this.isRead;
-};
 
 function addBookToLibrary(title, author, pages, isRead) {
   const book = new Book(title, author, pages, isRead);
@@ -85,8 +89,7 @@ function createBookCard(book) {
   removeBookButton.textContent = "Remove Book";
 
   removeBookButton.addEventListener("click", () => {
-    const bookId = book.id;
-    myLibrary = myLibrary.filter((book) => book.id !== bookId);
+    book.removeBook(book.id);
     displayBooks();
   });
 
@@ -147,6 +150,7 @@ addNewBook.addEventListener("click", (e) => {
     bookPages.value,
     bookRead.checked
   );
+
   displayBooks();
   dialog.close();
 });
